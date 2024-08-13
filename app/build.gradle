@@ -1,0 +1,107 @@
+import javax.annotation.Nullable
+
+apply plugin: 'com.android.application'
+
+def getProperties(String fileName) {
+    final Properties properties = new Properties()
+    def file = file(fileName)
+    if (file.exists()) {
+        file.withInputStream { stream -> properties.load(stream) }
+    }
+    return properties
+}
+
+static def getProperty(@Nullable Properties properties, String name) {
+    return properties.getProperty(name) ?: "$name missing"
+}
+
+android {
+    compileSdkVersion 33
+    defaultConfig {
+        minSdkVersion 32
+        targetSdkVersion 32
+
+        renderscriptTargetApi 29
+        vectorDrawables.useSupportLibrary = true
+
+        applicationId 'com.crdroid.music'
+        versionCode 180
+        versionName '13.0'
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ext.enableCrashlytics = false
+        }
+    }
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/LICENSE', 'META-INF/NOTICE']
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    namespace 'com.crdroid.music'
+    lint {
+        abortOnError false
+        disable 'MissingTranslation', 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.core:core:1.10.1'
+    implementation 'androidx.fragment:fragment:1.5.7'
+    implementation 'androidx.media:media:1.6.0'
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.percentlayout:percentlayout:1.0.0'
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'com.google.android.material:material:1.9.0'
+
+    implementation 'com.github.kabouzeid:app-theme-helper:1.3.10'
+    implementation 'com.github.kabouzeid:RecyclerView-FastScroll:1.0.16-kmod'
+    implementation 'com.github.kabouzeid:SeekArc:1.2-kmod'
+    implementation 'com.github.kabouzeid:AndroidSlidingUpPanel:6'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+    implementation 'com.afollestad:material-cab:0.1.12'
+    implementation 'com.github.ksoichiro:android-observablescrollview:1.6.0'
+    implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
+    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
+        transitive = true
+    }
+
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+
+    implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
+
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:1.5.0'
+    implementation 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
+
+    implementation 'com.github.AdrienPoupa:jaudiotagger:2.2.3'
+
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
+}
